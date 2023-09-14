@@ -4,76 +4,69 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RequestsQueue
+namespace SolicitudesSoprteTecnico
 {
-    public static class Menu
+    public class Menu
     {
-        public static void ChooseOptionMenu(int auto = -1) //If auto is -1 we ask for an input
+        private SoporteTecnico soporteTecnico = new SoporteTecnico();
+
+        public void MostrarMenu()
         {
-            int count_option = 1;//in case int auto is not given
-            int option = 0;
+            bool salir = false;
 
-            bool continueMenu = true; 
-
-            //for instance
-            while (continueMenu)
+            do
             {
-                if (auto == -1)
-                {
-                    ShowMenu();
-                    option = Convert.ToInt32(Console.ReadLine()); //Using inputs
-                }
-                
-                else if (count_option == auto * 2+1) // half enqueuing and half dequeuing
-                {
-                    continueMenu = false;
+                Console.WriteLine("Menú de opciones:");
+                Console.WriteLine("1. Agregar solicitud de soporte");
+                Console.WriteLine("2. Atender solicitud de mayor urgencia");
+                Console.WriteLine("3. Visualizar solicitudes pendientes");
+                Console.WriteLine("4. Actualizar urgencia de una solicitud");
+                Console.WriteLine("5. Cargar solicitudes desde archivo");
+                Console.WriteLine("6. Comparación de complejidades");
+                Console.WriteLine("7. Salir");
+                Console.Write("Seleccione una opción: ");
 
-
-                }
-                else if(count_option <= auto  )
+                int opcion;
+                if (int.TryParse(Console.ReadLine(), out opcion))
                 {
-                    option = 1; //Adding a request  automatically
-                    Console.WriteLine(count_option);
-
+                    switch (opcion)
+                    {
+                        case 1:
+                            soporteTecnico.AgregarSolicitud();
+                            break;
+                        case 2:
+                            soporteTecnico.AtenderSolicitud();
+                            break;
+                        case 3:
+                            soporteTecnico.VisualizarSolicitudes();
+                            break;
+                        case 4:
+                            soporteTecnico.ActualizarUrgencia();
+                            break;
+                        case 5:
+                            Console.Write("Ingrese la ruta del archivo TXT: ");
+                            string filePath = Console.ReadLine();
+                            soporteTecnico.CargarArchivo(filePath);
+                            Console.WriteLine("Solicitudes cargadas desde el archivo.");
+                            break;
+                        case 6:
+                            soporteTecnico.CompararComplejidades();
+                            break;
+                        case 7:
+                            salir = true;
+                            Console.WriteLine("¡Gracias por usar el programa!");
+                            break;
+                        default:
+                            Console.WriteLine("Opción no válida");
+                            break;
+                    }
                 }
                 else
                 {
-                    option = 2; //Attending to requests automatically
-                    Console.WriteLine(count_option);
+                    Console.WriteLine("Entrada no válida");
                 }
-                count_option++;
-                switch (option)
-                {
-                    case 1:
-
-                        Technical_Support.AddRequest();
-                        break;
-                    case 2:
-                        Technical_Support.AttendToRequests(); 
-                        break;
-                    case 3:
-                        Technical_Support.ShowRequests();
-                        break;
-                    case 4: 
-                        Technical_Support.UpdateUrgencyLevel();
-                        break;
-                    case 5:
-                        continueMenu = false;
-                        break;
-                }
-            }
-
-        }
-
-        public static void ShowMenu()
-        {
-            Console.WriteLine("Technical Support:\n" +
-                "\n1.Add Request" +
-                "\n2.Attend To Requests" +
-                "\n3.Show Requests" +
-                "\n4.Update Urgency Level" +
-                "\n5.Exit" +
-                "\nChoose an option:");
+            } while (!salir);
         }
     }
+
 }

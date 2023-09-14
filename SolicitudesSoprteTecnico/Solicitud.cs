@@ -11,7 +11,7 @@ namespace SolicitudesSoprteTecnico
         public int NumersoSolicitud {  get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public int urgencia { get; set; }
+        public int Urgencia { get; set; }
     }
 
 }
